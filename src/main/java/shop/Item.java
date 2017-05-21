@@ -1,6 +1,7 @@
 package shop;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name="items")
@@ -9,13 +10,14 @@ public class Item {
 	@Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Long id;
+	@OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
+	private Set<ItemAttr> attrs;
 	@ManyToOne
 	@JoinColumn(name = "brand_id")
 	private Brand brand;
     private String name;
 	private Double price;
 	private Long amount;
-
     protected Item() {}
 
     public Item(String name, Brand brand, Double price, Long amount) {
@@ -50,6 +52,10 @@ public class Item {
 
 	public void setBrand(Brand brand) {
 		this.brand = brand;
+	}
+
+	public Set<ItemAttr> getAttrValues() {
+		return attrs;			
 	}
 
 }

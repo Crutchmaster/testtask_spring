@@ -1,11 +1,6 @@
-// tag::sample[]
 package shop;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Table;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @Table(name="Types")
@@ -29,7 +24,6 @@ public class Type {
                 id, name);
     }
 
-// end::sample[]
 
 	public Long getId() {
 		return id;
