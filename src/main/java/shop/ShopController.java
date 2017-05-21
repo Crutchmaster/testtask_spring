@@ -8,13 +8,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class ShopController {
     @Autowired
 	TypesRepository typesRepo;
+	@Autowired
+	ItemsRepository itemsRepo;
     @RequestMapping("/")
     public String index() {
-        //return "Greetings from Spring Boot!";
 		String res = "<html>";
-		for (Type t : typesRepo.findAll()) {
-			res += "<div>"+t.toString()+"</div>";
+		for (Item i : itemsRepo.findAll()) {
+			res += "<div>"+i.toString()+"</div>";
 		}
+
 		return res += "</html>";
     }
     
