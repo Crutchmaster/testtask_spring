@@ -17,10 +17,10 @@ public class Item {
 	private Brand brand;
     private String name;
 	private Double price;
-	private Long amount;
+	private int amount;
     protected Item() {}
 
-    public Item(String name, Brand brand, Double price, Long amount) {
+    public Item(String name, Brand brand, Double price, int amount) {
         this.name = name;
 		this.brand = brand;
 		this.price = price;

@@ -14,7 +14,7 @@ public class AttrValue {
 	@ManyToOne
 	@JoinColumn(name = "attr_id")
 	private Attr attr;
-	@OneToMany(mappedBy = "attrValue", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "attrValue", cascade = CascadeType.REMOVE, orphanRemoval = true)
 	private Set<ItemAttr> attrs;
 
 

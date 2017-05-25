@@ -14,7 +14,7 @@ public class Attr {
 	@ManyToOne
 	@JoinColumn(name = "type_id")
 	private Type type;
-	@OneToMany(mappedBy = "attr", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "attr", cascade = CascadeType.REMOVE, orphanRemoval = true)
 	private Set<ItemAttr> attrs;
 
     protected Attr() {}

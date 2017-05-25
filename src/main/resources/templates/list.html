@@ -5,9 +5,8 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
-    <a href="/init">Clear db and load new data</a><br/>
-    <a href="/view/types">View datatypes</a><br/>
-    <br/>
+    <div th:replace="header :: header">
+    </div>
     <h3 th:text ="${data}"/>
     <table>
         <tr th:each="i : ${list}">

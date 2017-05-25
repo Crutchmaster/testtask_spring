@@ -37,7 +37,10 @@ public class ItemAttr {
     public String toString() {
         return String.format(
                 "Attributes:[item_name=%s, attr_name='%s', attr_value='%s', attr_value_str='%s']",
-                item.getName(), attr.getName(), attrValue.getValue(), attrValueStr);
+                item.getName(),
+                attr.getName(),
+                attrValue.getValue(),
+                attrValueStr);
     }
 
 	public Long getIdRec() {
