@@ -130,5 +130,10 @@ public class ShopController {
         model.addAttribute("list", repo.findAll());
         return "list";
     }
-    
+
+    @GetMapping("/items")
+    public String itemsTree() {
+
+        return "main";
+    }
 }
