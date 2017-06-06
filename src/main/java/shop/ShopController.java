@@ -5,8 +5,12 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.ui.Model;
 import org.springframework.stereotype.Controller;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.type.TypeReference;
 import java.util.HashMap;
+import java.util.List;
 import java.util.ArrayList;
+import java.io.File;
 
 @Controller
 public class ShopController {
@@ -28,7 +32,7 @@ public class ShopController {
     }
 
     @RequestMapping("/init")
-    public String init() {
+    public String init(Model model) {
         itemAttrsRepo.deleteAll();
         itemsRepo.deleteAll();
         brandsRepo.deleteAll();
@@ -36,73 +40,71 @@ public class ShopController {
         attrsRepo.deleteAll();
         typesRepo.deleteAll();
 
-        HashMap<String, Type> types = new HashMap<String, Type>();
-        String typeNames[] = {"int","float","bool","string"};
-        for (String s : typeNames) {
-            types.put(s, new Type(s));
+        ObjectMapper mapper = new ObjectMapper();
+        File f = new File("data.json");
+
+        HashMap<String, Object> root;
+        try {
+            root = mapper.readValue(
+                    getClass().getResourceAsStream("/init/data.json"),
+                    new TypeReference<HashMap<String, Object>>(){});
+        } catch (Exception e) {
+            model.addAttribute("debug", e.getMessage());
+            return "debug";
         }
 
-        typesRepo.save(types.values());
+        List types = (List) root.get("types");
 
-        HashMap<String, Attr> attrs = new HashMap<String, Attr>();
-
-        String attrNames[] = {"diag" ,"thickness","matrix_type","cryocam","width","height","length","loading"};
-        String attrTypes[] = {"float","int"      ,"string"    ,"bool"   ,"int"  ,"int"   ,"int"   ,"string" };
-        for (int i = 0; i < attrNames.length; i++) {
-            attrs.put(attrNames[i], new Attr(attrNames[i], types.get(attrTypes[i])));
+        for (Object s : types) {
+            typesRepo.save(new Type(s.toString()));
         }
-        attrsRepo.save(attrs.values());
 
-        HashMap<String, AttrValue> attrValues = new HashMap<String, AttrValue>();
-        String attrValuesStr[][] = {
-            {"inch"}, //diag
-            {"mm"}, //thickness
-            {"plasma","led"}, //matrix_type
-            {"yes/no"}, //cryocam
-            {"mm"},{"mm"},{"mm"}, //width,height,length
-            {"vertical","horisontal"}}; //loading
-        for (int i = 0; i < attrNames.length; i++) {
-            for (String attrValue : attrValuesStr[i]) {
-                attrValues.put(attrNames[i]+":"+attrValue, new AttrValue(attrValue, attrs.get(attrNames[i])));
+        HashMap<String, AttrValue> attrValuesHash = new HashMap<String, AttrValue>();
+        List attrs = (List) root.get("attrs");
+        for (Object a : attrs) {
+            HashMap<String, Object> m = (HashMap<String,Object>)a;
+            Attr attr = new Attr(m.get("name").toString(), 
+                                typesRepo.findByName(m.get("type").toString()).get(0));
+            attrsRepo.save(attr);
+            List values = (List) m.get("values");
+            for (Object v : values) {
+                AttrValue av = new AttrValue(v.toString(), attr);
+                attrValuesRepo.save(av);
+                attrValuesHash.put(attr.getName()+":"+av.getValue(),av);
             }
         }
-        attrValuesRepo.save(attrValues.values());
 
-        HashMap<String, Brand> brands = new HashMap<String, Brand>();
-        String brandNames[] = {"LG","Samsung","Indesit"};
-        for (String s : brandNames) {
-            brands.put(s, new Brand(s));
+        List brands = (List) root.get("brands");
+
+        for (Object s : brands) {
+            brandsRepo.save(new Brand(s.toString()));
         }
-        brandsRepo.save(brands.values());
 
-        ArrayList<Item> items = new ArrayList<Item>();
-        items.add(itemsRepo.save(new Item("Samsung UE32J4000AK",brands.get("Samsung"),15500.00,5)));
-        items.add(itemsRepo.save(new Item("LG 43UH619V",brands.get("LG"),31000.00,3)));
-        items.add(itemsRepo.save(new Item("Indesit GF280A",brands.get("Indesit"),16000.00,8)));
-        items.add(itemsRepo.save(new Item("LG EA1500C",brands.get("LG"),22000.00,4)));
-        items.add(itemsRepo.save(new Item("Indesit RC15V",brands.get("Indesit"),12000.00,5)));
-        items.add(itemsRepo.save(new Item("Samsung AE335H",brands.get("Samsung"),16000.00,2)));
+        List items = (List) root.get("items");
 
-        itemAttrsRepo.save(new ItemAttr("40", items.get(0), attrs.get("diag"), attrValues.get("diag:inch")));
-        itemAttrsRepo.save(new ItemAttr("5", items.get(0), attrs.get("thickness"), attrValues.get("thickness:mm")));
-        itemAttrsRepo.save(new ItemAttr("", items.get(0), attrs.get("matrix_type"), attrValues.get("matrix_type:led")));
-        itemAttrsRepo.save(new ItemAttr("32", items.get(1), attrs.get("diag"), attrValues.get("diag:inch")));
-        itemAttrsRepo.save(new ItemAttr("4", items.get(1), attrs.get("thickness"), attrValues.get("thickness:mm")));
-        itemAttrsRepo.save(new ItemAttr("", items.get(1), attrs.get("matrix_type"), attrValues.get("matrix_type:plasma")));
+        for (Object it : items) {
+            HashMap<String,Object> itemJson = (HashMap<String,Object>)it;
+            Item item = new Item(
+                    itemJson.get("name").toString(),
+                    brandsRepo.findByName(itemJson.get("brand").toString()).get(0),
+                    (Double)itemJson.get("cost"),
+                    (int)itemJson.get("count")
+                    );
+            itemsRepo.save(item);
+            List attrsList = (List) itemJson.get("attrs");
+            for (Object attr : attrsList) {
+                HashMap<String,Object> attrsJson = (HashMap<String,Object>)attr;
+                Object cntObj = attrsJson.get("count");
+                String cnt = cntObj == null ? "" : cntObj.toString();
+                itemAttrsRepo.save(new ItemAttr(
+                            cnt,
+                            item,
+                            attrsRepo.findByName(attrsJson.get("name").toString()).get(0),
+                            attrValuesHash.get(attrsJson.get("name").toString()+":"+attrsJson.get("value").toString())
+                            ));
 
-        itemAttrsRepo.save(new ItemAttr("no", items.get(2), attrs.get("cryocam"), attrValues.get("cryocam:yes/no")));
-        itemAttrsRepo.save(new ItemAttr("yes", items.get(3), attrs.get("cryocam"), attrValues.get("cryocam:yes/no")));
-
-        itemAttrsRepo.save(new ItemAttr("450", items.get(4), attrs.get("length"), attrValues.get("length:mm")));
-        itemAttrsRepo.save(new ItemAttr("850", items.get(4), attrs.get("height"), attrValues.get("height:mm")));
-        itemAttrsRepo.save(new ItemAttr("600", items.get(4), attrs.get("width"), attrValues.get("width:mm")));
-        itemAttrsRepo.save(new ItemAttr("", items.get(4), attrs.get("loading"), attrValues.get("loading:vertical")));
-
-
-        itemAttrsRepo.save(new ItemAttr("400", items.get(5), attrs.get("length"), attrValues.get("length:mm")));
-        itemAttrsRepo.save(new ItemAttr("820", items.get(5), attrs.get("height"), attrValues.get("height:mm")));
-        itemAttrsRepo.save(new ItemAttr("640", items.get(5), attrs.get("width"), attrValues.get("width:mm")));
-        itemAttrsRepo.save(new ItemAttr("", items.get(5), attrs.get("loading"), attrValues.get("loading:horisontal")));
+            }
+        }
 
         return "main";
     }
@@ -129,6 +131,25 @@ public class ShopController {
         model.addAttribute("data", data);
         model.addAttribute("list", repo.findAll());
         return "list";
+    }
+
+    @GetMapping("/debug")
+    public String debug(Model model) {
+        Type testType = typesRepo.findAll().get(0);
+        ObjectMapper mapper = new ObjectMapper();
+        String debug;
+        try {
+            debug = mapper.writeValueAsString(testType);
+            List<HashMap<String,Object>> jsonType = mapper.readValue("[{\"id\":500,\"name\":\"list\"},{\"id\":501,\"name\":[\"array\",\"list\"]}]", new TypeReference<List<HashMap<String,Object>>>(){});
+            debug += jsonType.get(0).get("name").toString();
+            List lst = (List) jsonType.get(1).get("name");
+            debug += lst.get(1).toString();
+
+        } catch (Exception e) {
+            debug = "IO Exception!"+e.getStackTrace();
+        }
+        model.addAttribute("debug", debug);
+        return "debug";
     }
 
     @GetMapping("/items")

@@ -1,0 +1,175 @@
+{
+    "types" : ["int","float","string"],
+    "brands" : ["LG","Samsung","Indesit"],
+    "attrs" : [
+        {
+            "name" : "diag",
+            "type" : "float",
+            "values" : ["inch"]
+        },
+        {
+            "name" : "thinckness",
+            "type" : "int",
+            "values" : ["mm"]
+        },
+        {
+            "name" : "matrix_type",
+            "type" : "string",
+            "values" : ["plasma","led"]
+        },
+        {
+            "name" : "cryocam",
+            "type" : "string",
+            "values" : ["yes","no"]
+        },
+        {
+            "name" : "width",
+            "type" : "int",
+            "values" : ["mm"]
+        },
+        {
+            "name" : "height",
+            "type" : "int",
+            "values" : ["mm"]
+        },
+        {
+            "name" : "length",
+            "type" : "int",
+            "values" : ["mm"]
+        },
+        {
+            "name" : "loading",
+            "type" : "string",
+            "values" : ["vertical","horisontal"]
+        }
+    ],
+    "items" : [
+        {
+            "name" : "Samsung UE32J4000AK",
+            "brand" : "Samsung",
+            "cost" : 15500.00,
+            "count" : 5,
+            "attrs" : [
+                {
+                    "name" : "diag",
+                    "value" : "inch",
+                    "count" : 40
+                },
+                {
+                    "name" : "thinckness",
+                    "value" : "mm",
+                    "count" : 25
+                },
+                {
+                    "name" : "matrix_type",
+                    "value" : "led"
+                }
+            ]
+        },
+        {
+            "name" : "LG 43UH61V",
+            "brand" : "LG",
+            "cost" : 31000.00,
+            "count" : 3,
+            "attrs" : [
+                {
+                    "name" : "diag",
+                    "value" : "inch",
+                    "count" : 32
+                },
+                {
+                    "name" : "thinckness",
+                    "value" : "mm",
+                    "count" : 30
+                },
+                {
+                    "name" : "matrix_type",
+                    "value" : "plasma"
+                }
+            ]
+        },
+        {
+            "name" : "Indesit GF280A",
+            "brand" : "Indesit",
+            "cost" : 31000.00,
+            "count" : 8,
+            "attrs" : [
+                {
+                    "name" : "cryocam",
+                    "value" : "no"
+                }
+            ]
+
+        },
+        {
+            "name" : "LG EA1500C",
+            "brand" : "LG",
+            "cost" : 220000.00,
+            "count" : 4,
+            "attrs" : [
+                {
+                    "name" : "cryocam",
+                    "value" : "yes"
+                }
+            ]
+
+        },
+        {
+            "name" : "Indesit RC15V",
+            "brand" : "Indesit",
+            "cost" : 12000.00,
+            "count" : 5,
+            "attrs" : [
+                {
+                    "name" : "length",
+                    "value" : "mm",
+                    "count" : 450
+                },
+                {
+                    "name" : "height",
+                    "value" : "mm",
+                    "count" : 850
+                },
+                {
+                    "name" : "width",
+                    "value" : "mm",
+                    "count" : 600
+                },
+                {
+                    "name" : "loading",
+                    "value" : "vertical"
+                }
+
+            ]
+        },
+        {
+            "name" : "Samsung AE335H",
+            "brand" : "Samsung",
+            "cost" : 16000.00,
+            "count" : 2,
+            "attrs" : [
+                {
+                    "name" : "length",
+                    "value" : "mm",
+                    "count" : 400
+                },
+                {
+                    "name" : "height",
+                    "value" : "mm",
+                    "count" : 820
+                },
+                {
+                    "name" : "width",
+                    "value" : "mm",
+                    "count" : 640
+                },
+                {
+                    "name" : "loading",
+                    "value" : "horisontal"
+                }
+
+            ]
+        }
+    ]
+
+}

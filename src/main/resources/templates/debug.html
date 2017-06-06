@@ -7,12 +7,7 @@
 <body>
     <div th:replace="header :: header">
     </div>
-    <h3 th:text ="${data}"/>
-    <table>
-        <tr th:each="i : ${list}">
-            <td th:text="${i.toString()}"/>
-        </tr>
-    </table>
+    <h3>Debug</h3>
     <p th:text ="${debug}"/>
 
 </body>

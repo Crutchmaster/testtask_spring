@@ -45,6 +45,10 @@ public class AttrValue {
 		return attr;
 	}
 
+    public String getAttrName() {
+        return attr.getName();
+    }
+
 	public Set<ItemAttr> getAttrValues() {
 		return attrs;			
 	}
