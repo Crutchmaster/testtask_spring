@@ -26,6 +26,8 @@ public class ShopController {
     BrandsRepository brandsRepo;
     @Autowired
     ItemAttrsRepository itemAttrsRepo;
+    @Autowired
+    ItemTypesRepository itemTypesRepo;
     @RequestMapping("/")
     public String index(Model model) {
 		return "main";
@@ -58,6 +60,11 @@ public class ShopController {
         for (Object s : types) {
             typesRepo.save(new Type(s.toString()));
         }
+        List itemTypes = (List) root.get("itemTypes");
+
+        for (Object s : itemTypes) {
+            itemTypesRepo.save(new ItemType(s.toString()));
+        }
 
         HashMap<String, AttrValue> attrValuesHash = new HashMap<String, AttrValue>();
         List attrs = (List) root.get("attrs");
@@ -86,6 +93,7 @@ public class ShopController {
             HashMap<String,Object> itemJson = (HashMap<String,Object>)it;
             Item item = new Item(
                     itemJson.get("name").toString(),
+                    itemTypesRepo.findByName(itemJson.get("itemType").toString()).get(0),
                     brandsRepo.findByName(itemJson.get("brand").toString()).get(0),
                     (Double)itemJson.get("cost"),
                     (int)itemJson.get("count")
@@ -119,8 +127,9 @@ public class ShopController {
         repos.add(brandsRepo);
         repos.add(itemsRepo);
         repos.add(itemAttrsRepo);
+        repos.add(itemTypesRepo);
 
-        String[] keys = {"types","attrs","attrValues","brands","items","itemAttrs"};
+        String[] keys = {"types","attrs","attrValues","brands","items","itemAttrs","itemTypes"};
         JpaRepository<?, Long> repo = itemsRepo;
 
         boolean set = false;
@@ -153,7 +162,8 @@ public class ShopController {
     }
 
     @GetMapping("/items")
-    public String itemsTree() {
+    public String items(Model model) {
+
 
         return "main";
     }

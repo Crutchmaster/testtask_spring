@@ -1,5 +1,6 @@
 {
     "types" : ["int","float","string"],
+    "itemTypes" : ["TV","Refrigirator","Washer"],
     "brands" : ["LG","Samsung","Indesit"],
     "attrs" : [
         {
@@ -49,6 +50,7 @@
             "brand" : "Samsung",
             "cost" : 15500.00,
             "count" : 5,
+            "itemType" : "TV",
             "attrs" : [
                 {
                     "name" : "diag",
@@ -71,6 +73,7 @@
             "brand" : "LG",
             "cost" : 31000.00,
             "count" : 3,
+            "itemType" : "TV",
             "attrs" : [
                 {
                     "name" : "diag",
@@ -93,6 +96,7 @@
             "brand" : "Indesit",
             "cost" : 31000.00,
             "count" : 8,
+            "itemType" : "Refrigirator",
             "attrs" : [
                 {
                     "name" : "cryocam",
@@ -106,6 +110,7 @@
             "brand" : "LG",
             "cost" : 220000.00,
             "count" : 4,
+            "itemType" : "Refrigirator",
             "attrs" : [
                 {
                     "name" : "cryocam",
@@ -119,6 +124,7 @@
             "brand" : "Indesit",
             "cost" : 12000.00,
             "count" : 5,
+            "itemType" : "Washer",
             "attrs" : [
                 {
                     "name" : "length",
@@ -147,6 +153,7 @@
             "brand" : "Samsung",
             "cost" : 16000.00,
             "count" : 2,
+            "itemType" : "Washer",
             "attrs" : [
                 {
                     "name" : "length",
