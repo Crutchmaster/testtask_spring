@@ -1,0 +1,1 @@
+mvn package && java -jar target/test-shop-0.0.0.jar

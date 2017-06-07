@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
 import java.io.File;
+import java.lang.Long;
 
 @Controller
 public class ShopController {
@@ -169,10 +170,10 @@ public class ShopController {
         return "items";
     }
     @GetMapping("/item/{id}")
-    public String view(@PathVariable String id, Model model) {
+    public String item(@PathVariable String id, Model model) {
         long itemId = 0;
         try {
-            itemId = parseLong(id);
+            itemId = Long.parseLong(id);
         } catch (Exception e) {
             model.addAttribute("error", "Item id "+id+" is not long!");
             return "error";
@@ -182,7 +183,7 @@ public class ShopController {
             model.addAttribute("error", "Item id "+id+" not found.");
             return "error";
         }
-        mode.addAttribute("item", i);
+        model.addAttribute("item", i);
         return "item";
     }
 }
