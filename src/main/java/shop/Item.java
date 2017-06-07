@@ -62,5 +62,13 @@ public class Item {
 		return attrs;			
 	}
 
+    public String getPriceStr() {
+        return String.format("%8.2f", price);
+    }
+
+    public String getAmountStr() {
+        return String.format("%d", amount);
+    }
+
 }
 

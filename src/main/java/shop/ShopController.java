@@ -163,8 +163,26 @@ public class ShopController {
 
     @GetMapping("/items")
     public String items(Model model) {
-
-
-        return "main";
+        List<ItemType> itemTypesList = itemTypesRepo.findAll();
+        model.addAttribute("list", itemTypesList);
+        model.addAttribute("data", "Items list");
+        return "items";
+    }
+    @GetMapping("/item/{id}")
+    public String view(@PathVariable String id, Model model) {
+        long itemId = 0;
+        try {
+            itemId = parseLong(id);
+        } catch (Exception e) {
+            model.addAttribute("error", "Item id "+id+" is not long!");
+            return "error";
+        }
+        Item i = itemsRepo.getOne(itemId);
+        if (i == null) {
+            model.addAttribute("error", "Item id "+id+" not found.");
+            return "error";
+        }
+        mode.addAttribute("item", i);
+        return "item";
     }
 }

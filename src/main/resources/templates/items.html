@@ -1,0 +1,35 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Test shop</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+    <div th:replace="header :: header">
+    </div>
+    <h3 th:text ="${data}"/>
+    <table>
+        <div th:each="it : ${list}">
+        <tr>
+            <td th:text="${it.getName()}"/>
+            <td/>
+        </tr>
+        <tr>
+            <td><hr/></td>
+            <td>
+                <table>
+                    <div th:each="i : ${it.getItems()}">
+                        <tr><td>Name : </td><td><a th:text="${i.getName()}" th:href="@{/item/{id}(id=${i.getId()})}"></a></td></tr>
+                        <tr><td>Price : </td><td th:text="${i.getPriceStr()}"/></tr>
+                        <tr><td>Amoumt : </td><td th:text="${i.getAmountStr()}"/></tr>
+                        <tr><td><hr/></td><td><hr/></td></tr>
+                    </div>
+                </table>
+            </td>
+        </tr>
+        </div>        
+    </table>
+    <p th:text ="${debug}"/>
+
+</body>
+</html>
