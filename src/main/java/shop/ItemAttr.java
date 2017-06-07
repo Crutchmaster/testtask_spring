@@ -74,5 +74,13 @@ public class ItemAttr implements JSON {
         return attrValueStr+" "+attrValue.getValue();
     }
 
+    public void setAttrValueStr(String str) {
+        this.attrValueStr = str;
+    }
+
+    public void setAttrValue(AttrValue val) {
+        this.attrValue = val;
+    }
+
 }
 

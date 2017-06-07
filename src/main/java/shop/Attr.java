@@ -65,4 +65,8 @@ public class Attr implements JSON {
 		return attrs;			
 	}
 
+    public Set<AttrValue> getAttrVariants() {
+        return attrValues;
+    }
+
 }

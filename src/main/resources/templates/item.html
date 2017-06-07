@@ -17,7 +17,7 @@
             <td th:text = "${a.getAttr().getName()}"/><td th:text="${a.getAttrValueText()}"/>
         </tr>
     </table>
-    <p th:text ="${debug}"/>
-
+    <a th:href = "@{/edititem/{id}(id=${i.getId()})}">Edit</a><br/>
+    <p th:text = "${debug}"/>
 </body>
 </html>

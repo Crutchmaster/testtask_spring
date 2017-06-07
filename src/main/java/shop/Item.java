@@ -68,25 +68,35 @@ public class Item implements JSON {
 	public Brand getBrand() {
 		return brand;
 	}
+    
+    public void setBrand(Brand brand) {
+		this.brand = brand;
+	}
 
     public ItemType getItemType() {
         return itemType;
     }
 
-	public void setBrand(Brand brand) {
-		this.brand = brand;
-	}
 
+	
 	public Set<ItemAttr> getAttrValues() {
 		return attrs;			
 	}
 
     public String getPriceStr() {
-        return String.format("%8.2f", price);
+        return String.format(Locale.US,"%8.2f", price);
+    }
+    
+    public void setPrice(Double price) {
+        this.price = price;
     }
 
     public String getAmountStr() {
         return String.format("%d", amount);
+    }
+
+    public void setAmount(int amount) {
+        this.amount = amount;
     }
 
 }

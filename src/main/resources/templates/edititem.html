@@ -1,0 +1,33 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Test shop</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+    <div th:replace="header :: header">
+    </div>
+    <h3 th:text ="${data}"/>
+    <form action="/api/edititem" method="POST">
+    <input type="hidden" name="id" th:value="${i.getId()}"/>
+    <table>
+        <tr><td>Brand</td><td><input type="text" name="brandId" th:value="${i.getBrand().getId()}"/></td></tr>
+        <tr><td>Price</td><td><input type="text" name="cost" th:value="${i.getPriceStr()}"/></td></tr>
+        <tr><td>Amount</td><td><input type="text" name="count" th:value="${i.getAmountStr()}"/></td></tr>
+        <tr th:each="a : ${i.getAttrValues()}">
+        <td th:text = "${a.getAttr().getName()}"/>
+            <td>
+                <input type="hidden" name="itemAttrId" th:value="${a.getIdRec()}"/>
+                <input type="text" name="attrValueStr" th:value="${a.getAttrValueStr()}"/>
+                <select name="attrValue">
+                    <option th:each="av : ${a.getAttr().getAttrVariants()}" th:value="${av.getId()}" th:text="${av.getValue()}" th:selected = "${av.getId() == a.getAttrValue().getId()}"/>
+                </select>
+            </td>
+        </tr>
+    </table>
+    <p><input type="submit"/></p>
+    </form>
+    <p th:text ="${debug}"/>
+
+</body>
+</html>

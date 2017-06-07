@@ -175,15 +175,35 @@ public class ShopController {
             itemId = Long.parseLong(id);
         } catch (Exception e) {
             model.addAttribute("error", "Item id "+id+" is not long!");
-            return "error";
+            return "apperror";
         }
         Item i = itemsRepo.getOne(itemId);
         if (i == null) {
             model.addAttribute("error", "Item id "+id+" not found.");
-            return "error";
+            return "apperror";
         }
         model.addAttribute("data", i.getName());
         model.addAttribute("i", i);
         return "item";
+    }
+
+    @GetMapping("/edititem/{id}")
+    public String edititem(@PathVariable String id, Model model) {
+        long itemId = 0;
+        try {
+            itemId = Long.parseLong(id);
+        } catch (Exception e) {
+            model.addAttribute("error", "Item id "+id+" is not long!");
+            return "apperror";
+        }
+        Item i = itemsRepo.getOne(itemId);
+        if (i == null) {
+            model.addAttribute("error", "Item id "+id+" not found.");
+            return "apperror";
+        }
+        model.addAttribute("data", i.getName());
+        model.addAttribute("i", i);
+        model.addAttribute("brands", brandsRepo.findAll());
+        return "edititem";
     }
 }
