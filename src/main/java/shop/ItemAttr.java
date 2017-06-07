@@ -5,7 +5,7 @@ import java.util.Set;
 
 @Entity
 @Table(name="items_attrs")
-public class ItemAttr {
+public class ItemAttr implements JSON {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -41,6 +41,14 @@ public class ItemAttr {
                 attr.getName(),
                 attrValue.getValue(),
                 attrValueStr);
+    }
+
+    public String toJSON() {
+        String ret = String.format("{\"attr\":{\"id\":\"%d\",\"name\":\"%s\"},\"value\":%s",
+                attr.getId(), attr.getName(), attrValue.toJSON());
+        ret += (attrValueStr.length() > 0) ? String.format(",\"count\":\"%s\"",attrValueStr) : "";
+        ret += "}";
+        return ret;
     }
 
 	public Long getIdRec() {

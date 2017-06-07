@@ -5,7 +5,7 @@ import java.util.Set;
 
 @Entity
 @Table(name="ItemTypes")
-public class ItemType {
+public class ItemType implements JSON {
 
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
@@ -27,6 +27,11 @@ public class ItemType {
                 id, name);
     }
 
+    public String toJSON() {
+        return String.format(
+                "{\"id\":\"%d\",\"name\":\"%s\"}",
+                id, name);
+    }
 
 	public Long getId() {
 		return id;

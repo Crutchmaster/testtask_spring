@@ -133,7 +133,6 @@ public class ShopController {
         String[] keys = {"types","attrs","attrValues","brands","items","itemAttrs","itemTypes"};
         JpaRepository<?, Long> repo = itemsRepo;
 
-        boolean set = false;
         for (int i = 0; i < keys.length; i++) {
             if (data.equals(keys[i])) repo=repos.get(i);
         }

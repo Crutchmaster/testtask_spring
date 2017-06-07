@@ -4,7 +4,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name="Types")
-public class Type {
+public class Type implements JSON {
 
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
@@ -23,6 +23,12 @@ public class Type {
                 "Type[id=%d, name='%s']",
                 id, name);
     }
+    public String toJSON() {
+        return String.format(
+                "{\"id\":\"%d\",\"name\":\"%s\"}",
+                id, name);
+    }
+
 
 
 	public Long getId() {

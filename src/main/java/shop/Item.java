@@ -2,10 +2,10 @@ package shop;
 
 import javax.persistence.*;
 import java.util.Set;
-
+import java.util.Locale;
 @Entity
 @Table(name="items")
-public class Item {
+public class Item implements JSON {
 	
 	@Id
     @GeneratedValue(strategy=GenerationType.AUTO)
@@ -37,7 +37,22 @@ public class Item {
                 "Item[id=%d, name='%s', type='%s', brand_name='%s', price=%8.2f, amount=%d]",
                 id, name, itemType.getName(), brand.getName(), price, amount);
     }
-    
+   
+    public String toJSON() {
+        String str = "[";
+        boolean first = true;
+        for (ItemAttr i : attrs) {
+            str += first ? "" : ",";
+            str += i.toJSON();
+            first = false;
+        }
+        str += "]";
+
+        return String.format(Locale.US,
+                "{\"id\":\"%d\", \"name\":\"%s\", \"brand\":%s, \"cost\" : \"%8.2f\", \"count\" : \"%d\", \"attrs\":%s}",
+                id, name, brand.toJSON(), price, amount, str);
+   }
+ 
 	public Long getId() {
 		return id;
 	}

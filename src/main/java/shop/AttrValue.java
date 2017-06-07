@@ -5,7 +5,7 @@ import java.util.Set;
 
 @Entity
 @Table(name="attrs_values")
-public class AttrValue {
+public class AttrValue implements JSON {
 
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
@@ -15,7 +15,7 @@ public class AttrValue {
 	@JoinColumn(name = "attr_id")
 	private Attr attr;
 	@OneToMany(mappedBy = "attrValue", cascade = CascadeType.REMOVE, orphanRemoval = true)
-	private Set<ItemAttr> attrs;
+    private Set<ItemAttr> attrs;
 
 
     protected AttrValue() {}
@@ -31,6 +31,13 @@ public class AttrValue {
                 "Type[id=%d, value='%s', attrName='%s']",
                 id, value, attr.getName());
     }
+
+    public String toJSON() {
+        return String.format(
+                "{\"id\":\"%d\", \"value\":\"%s\"}",
+                id, value);
+    }
+
 
 
 	public Long getId() {
