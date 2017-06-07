@@ -183,7 +183,8 @@ public class ShopController {
             model.addAttribute("error", "Item id "+id+" not found.");
             return "error";
         }
-        model.addAttribute("item", i);
+        model.addAttribute("data", i.getName());
+        model.addAttribute("i", i);
         return "item";
     }
 }

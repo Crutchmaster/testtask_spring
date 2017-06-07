@@ -62,5 +62,9 @@ public class ItemAttr {
 		return attrValueStr;
 	}
 
+    public String getAttrValueText() {
+        return attrValueStr+" "+attrValue.getValue();
+    }
+
 }
 

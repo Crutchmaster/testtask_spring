@@ -54,6 +54,10 @@ public class Item {
 		return brand;
 	}
 
+    public ItemType getItemType() {
+        return itemType;
+    }
+
 	public void setBrand(Brand brand) {
 		this.brand = brand;
 	}
